@@ -1,10 +1,25 @@
 import { createContext } from "preact";
 import { useContext, useState } from "preact/hooks";
 
+const schema = {
+  exercises: [],
+  reps: [],
+};
+
 const getDataFromStorage = () => {
-  return JSON.parse(
-    window.localStorage.getItem("data") || '{ "exercises": [] }',
-  );
+  const rawData = window.localStorage.getItem("data");
+  let data = schema;
+  if (rawData) {
+    data = JSON.parse(rawData);
+    for (let p of Object.keys(schema)) {
+      if (!data[p]) {
+        data[p] = schema[p];
+      }
+    }
+    updateStorage(data);
+  }
+
+  return data;
 };
 
 const updateStorage = (data) => {
@@ -39,11 +54,21 @@ export const useSetupData = () => {
     dataChanged((x) => ++x);
   };
 
+  const addRep = (exercise, details) => {
+    data.reps.push({
+      exerciseId: exercise.id,
+      details,
+    });
+    updateStorage(data);
+    dataChanged((x) => ++x);
+  };
+
   return {
     data,
     addExercise,
     updateExercise,
     deleteExercise,
+    addRep,
   };
 };
 
