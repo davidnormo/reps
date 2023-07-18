@@ -1,7 +1,8 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useContext } from "preact/hooks";
 import OverviewPage from "../components/OverviewPAge/OverviewPage";
 import RecordPage from "../components/RecordPage/RecordPage";
 import ManagePage from "../components/ManagePage/ManagePage";
+import { createContext } from "preact";
 
 const getCurrentHistoryState = () => {
   const page = window.location.hash.slice(1) || "overview";
@@ -18,7 +19,9 @@ const routeToComponent = {
   manage: ManagePage,
 };
 
-export default function useNav() {
+export const NavCtx = createContext({});
+
+export const useNavSetup = () => {
   const [historyState, setHistoryState] = useState(getCurrentHistoryState());
 
   useEffect(() => {
@@ -41,4 +44,8 @@ export default function useNav() {
     ...historyState,
     PageComponent,
   };
+};
+
+export default function useNav() {
+  return useContext(NavCtx);
 }

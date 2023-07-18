@@ -1,4 +1,12 @@
+import useNav from "../../hooks/useNav";
+
 export function Nav() {
+  const { page } = useNav();
+
+  let overviewClasses = page === "overview" ? "text-primary" : "";
+  let recordClasses = page === "record" ? "text-primary" : "";
+  let manageClasses = page === "manage" ? "text-primary" : "";
+
   return (
     <div className="">
       <section
@@ -8,7 +16,7 @@ export function Nav() {
         <div id="tabs" className="flex justify-between">
           <a
             href="#overview"
-            className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+            className={`w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1 ${overviewClasses}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +37,7 @@ export function Nav() {
           </a>
           <a
             href="#record"
-            className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+            className={`w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1 ${recordClasses}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +58,7 @@ export function Nav() {
           </a>
           <a
             href="#manage"
-            className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
+            className={`w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1 ${manageClasses}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
