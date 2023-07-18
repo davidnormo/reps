@@ -7,7 +7,7 @@ export function Nav() {
       >
         <div id="tabs" className="flex justify-between">
           <a
-            href="#"
+            href="#overview"
             className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
           >
             <svg
@@ -28,7 +28,7 @@ export function Nav() {
             </svg>
           </a>
           <a
-            href="#"
+            href="#record"
             className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
           >
             <svg
@@ -49,7 +49,7 @@ export function Nav() {
             </svg>
           </a>
           <a
-            href="#"
+            href="#manage"
             className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1"
           >
             <svg
