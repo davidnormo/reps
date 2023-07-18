@@ -8,6 +8,24 @@ export default defineConfig({
     preact(),
     VitePWA({
       registerType: "autoUpdate",
+      manifest: {
+        name: "Reps",
+        short_name: "Reps",
+        description: "Repeated Exercise Tracker",
+        theme_color: "#ffffff",
+        icons: [
+          {
+            src: "/reps/android-chrome-192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "/reps/android-chrome-512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      },
     }),
   ],
   base: "/reps/",
