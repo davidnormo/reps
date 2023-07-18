@@ -7,17 +7,28 @@ import useData from "../../hooks/useData";
 
 const units = ["None", "kg", "cm", "metres"];
 
-export default function AddExercise({ close }) {
-  const { addExercise } = useData();
+export default function AddExercise({ close, exercise }) {
+  const { addExercise, updateExercise } = useData();
 
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [unit, setUnit] = useState(units[0]);
-  const [timed, setTimed] = useState(false);
-  const [sets, setSets] = useState(false);
+  const [name, setName] = useState(exercise.name || "");
+  const [category, setCategory] = useState(exercise.category || "");
+  const [unit, setUnit] = useState(exercise.unit || units[0]);
+  const [timed, setTimed] = useState(exercise.timed || false);
+  const [sets, setSets] = useState(exercise.sets || false);
 
   const onDone = () => {
-    addExercise({ name, category, unit, timed, sets });
+    if (exercise) {
+      updateExercise({
+        ...exercise,
+        name,
+        category,
+        unit,
+        timed,
+        sets,
+      });
+    } else {
+      addExercise({ name, category, unit, timed, sets });
+    }
     close();
   };
 

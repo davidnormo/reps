@@ -42,6 +42,12 @@ export const useNavSetup = () => {
 
   return {
     ...historyState,
+    setHistoryState: (newState) => {
+      setHistoryState({
+        page,
+        ...newState,
+      });
+    },
     PageComponent,
   };
 };

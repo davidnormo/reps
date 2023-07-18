@@ -19,7 +19,15 @@ export const useSetupData = () => {
   const [, dataChanged] = useState(0);
 
   const addExercise = (exercise) => {
-    data.exercises.push(exercise);
+    const id = window.crypto.randomUUID();
+    data.exercises.push({ id, ...exercise });
+    updateStorage(data);
+    dataChanged((x) => ++x);
+  };
+
+  const updateExercise = (exercise) => {
+    const idx = data.exercises.findIndex((ex) => ex.id === exercise.id);
+    data.exercises[idx] = exercise;
     updateStorage(data);
     dataChanged((x) => ++x);
   };
@@ -27,6 +35,7 @@ export const useSetupData = () => {
   return {
     data,
     addExercise,
+    updateExercise,
   };
 };
 
