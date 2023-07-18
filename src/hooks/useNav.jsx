@@ -4,7 +4,7 @@ import RecordPage from "../components/RecordPage/RecordPage";
 import ManagePage from "../components/ManagePage/ManagePage";
 
 const getCurrentHistoryState = () => {
-  const page = window.location.hash.slice(1);
+  const page = window.location.hash.slice(1) || "overview";
   return {
     page,
   };

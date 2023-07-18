@@ -1,4 +1,4 @@
-import { useData } from "../../hooks/useData";
+import useData from "../../hooks/useData";
 
 export default function WeekOverview() {
   // const { data } = useData();
