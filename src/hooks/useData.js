@@ -32,10 +32,18 @@ export const useSetupData = () => {
     dataChanged((x) => ++x);
   };
 
+  const deleteExercise = (exercise) => {
+    const idx = data.exercises.findIndex((ex) => ex.id === exercise.id);
+    data.exercises.splice(idx, 1);
+    updateStorage(data);
+    dataChanged((x) => ++x);
+  };
+
   return {
     data,
     addExercise,
     updateExercise,
+    deleteExercise,
   };
 };
 
