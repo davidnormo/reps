@@ -20,11 +20,11 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: theme('colors.primary');
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: theme('colors.cyan.100');
 }
 
 body {
@@ -51,13 +51,6 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -70,4 +63,13 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+select {
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' width='15' height='15'><path stroke-linecap='round' stroke-linejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' /></svg>") no-repeat;
+  background-position: calc(100% - 0.75rem) center !important;
+  -moz-appearance:none !important;
+  -webkit-appearance: none !important; 
+  appearance: none !important;
+  padding-right: 2rem !important;
 }
