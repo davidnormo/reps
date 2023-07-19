@@ -6,7 +6,6 @@ import logo from "/android-chrome-512x512.png";
 
 export function App() {
   const { PageComponent, ...navValue } = useNavSetup();
-
   const dataValue = useSetupData();
 
   return (

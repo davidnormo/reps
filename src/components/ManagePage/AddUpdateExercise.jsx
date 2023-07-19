@@ -5,7 +5,7 @@ import Select from "../Select/Select";
 import Button from "../Button/Button";
 import useData from "../../hooks/useData";
 
-const units = ["None", "kg", "cm", "metres"];
+const units = ["None", "kg", "cm", "metres", "count"];
 
 export default function AddExercise({ close, exercise }) {
   const { addExercise, updateExercise } = useData();

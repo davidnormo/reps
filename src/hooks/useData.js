@@ -4,6 +4,7 @@ import { useContext, useState } from "preact/hooks";
 const schema = {
   exercises: [],
   reps: [],
+  state: {},
 };
 
 const getDataFromStorage = () => {
@@ -63,12 +64,19 @@ export const useSetupData = () => {
     dataChanged((x) => ++x);
   };
 
+  const updateState = (key, value) => {
+    data.state[key] = value;
+    updateStorage(data);
+    dataChanged((x) => ++x);
+  };
+
   return {
     data,
     addExercise,
     updateExercise,
     deleteExercise,
     addRep,
+    updateState,
   };
 };
 

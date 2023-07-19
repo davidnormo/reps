@@ -2,7 +2,7 @@ export default function Card({ children, onClose }) {
   return (
     <div className="block relative max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
       {onClose && (
-        <div className="absolute top-2 right-2">
+        <div onClick={() => onClose()} className="absolute top-2 right-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
