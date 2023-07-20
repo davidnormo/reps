@@ -9,6 +9,21 @@ export default {
       colors: {
         primary: colors.cyan["700"],
       },
+      animation: {
+        grow: "grow 1s ease-out",
+      },
+      keyframes: {
+        grow: {
+          from: {
+            transform: "scaleY(0)",
+            "transform-origin": "bottom",
+          },
+          to: {
+            transform: "scaleY(100%)",
+            "transform-origin": "bottom",
+          },
+        },
+      },
     },
   },
   plugins: [],

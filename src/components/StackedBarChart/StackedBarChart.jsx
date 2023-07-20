@@ -12,10 +12,10 @@ const findMaxValue = (series) => {
 
 export default function StackedBarChart({ series, legend }) {
   const maxValue = findMaxValue(series);
-  console.log("maxValue", maxValue);
+
   return (
     <div className="w-full h-full flex flex-col justify-end">
-      <div className="grow flex flex-row items-end border-b pb-1">
+      <div className="grow flex flex-row border-b pb-1 overflow-hidden animate-grow relative">
         {series.map((stacks, i) => (
           <div
             key={i}
@@ -26,7 +26,7 @@ export default function StackedBarChart({ series, legend }) {
           >
             {stacks.map((stack, j) => (
               <div
-                className={`w-full bg-teal-100`}
+                className={`w-full ${stack.color || "bg-teal-100"}`}
                 key={`${i}${j}`}
                 style={{
                   height: `${(stack.value / maxValue) * 100}%`,
@@ -36,7 +36,7 @@ export default function StackedBarChart({ series, legend }) {
           </div>
         ))}
       </div>
-      <div className="flex flex-row text-center">
+      <div className="flex flex-row text-center justify-self-end">
         {legend.x.map((leg, i) => (
           <div
             className={`${i === 0 ? "ml-0" : "ml-2"}`}
