@@ -4,7 +4,7 @@ import Card from "../Card/Card";
 import { randomInt } from "../../utils/utils";
 
 export default function OverviewCards() {
-  const { data } = useData();
+  const data = useData();
 
   if (!data.exercises.length) {
     return null;

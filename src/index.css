@@ -69,3 +69,7 @@ select {
   appearance: none !important;
   padding-right: 2rem !important;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

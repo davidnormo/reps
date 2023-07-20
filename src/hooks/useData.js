@@ -1,7 +1,6 @@
-import { createContext } from "preact";
-import { useContext, useState } from "preact/hooks";
 import mockData from "./mockData";
 import { randomInt } from "../utils/utils";
+import { deepSignal } from "deepsignal";
 
 const schema = {
   exercises: [],
@@ -50,22 +49,22 @@ const updateStorage = (data) => {
   window.localStorage.setItem("data", JSON.stringify(data));
 };
 
-const data = getDataFromStorage();
+const data = deepSignal({
+  ...getDataFromStorage(),
 
-export const DataCtx = createContext({ data });
+  /**
+   * Used by ManagePage for rendering the list of categories with their exercises
+   */
+  get categoriesHierarchy() {
+    return data.categories.map((cat) => {
+      return {
+        ...cat,
+        exercises: data.exercises.filter((ex) => ex.category === cat.id),
+      };
+    });
+  },
 
-export const getCategory = (data, catId) => {
-  return data.categories.find((cat) => cat.id === catId);
-};
-
-export const getExercise = (data, exId) => {
-  return data.exercises.find((ex) => ex.id === exId);
-};
-
-export const useSetupData = () => {
-  const [, dataChanged] = useState(0);
-
-  const addExercise = (exercise) => {
+  addExercise(exercise) {
     let catId;
     const category = data.categories.find(
       (cat) => cat.name === exercise.category,
@@ -84,48 +83,42 @@ export const useSetupData = () => {
     const id = window.crypto.randomUUID();
     data.exercises.push({ id, ...exercise, category: catId });
     updateStorage(data);
-    dataChanged((x) => ++x);
-  };
+  },
 
-  const updateExercise = (exercise) => {
+  updateExercise(exercise) {
     const idx = data.exercises.findIndex((ex) => ex.id === exercise.id);
     data.exercises[idx] = exercise;
     updateStorage(data);
-    dataChanged((x) => ++x);
-  };
+  },
 
-  const deleteExercise = (exercise) => {
+  deleteExercise(exercise) {
     const idx = data.exercises.findIndex((ex) => ex.id === exercise.id);
     data.exercises.splice(idx, 1);
     updateStorage(data);
-    dataChanged((x) => ++x);
-  };
+  },
 
-  const addRep = (exercise, details) => {
+  addRep(exercise, details) {
     data.reps.push({
       exerciseId: exercise.id,
       details,
     });
     updateStorage(data);
-    dataChanged((x) => ++x);
-  };
+  },
 
-  const updateState = (key, value) => {
+  updateState(key, value) {
     data.state[key] = value;
     updateStorage(data);
-    dataChanged((x) => ++x);
-  };
+  },
+});
 
-  return {
-    data,
-    addExercise,
-    updateExercise,
-    deleteExercise,
-    addRep,
-    updateState,
-  };
+export const getCategory = (data, catId) => {
+  return data.categories.find((cat) => cat.id === catId);
+};
+
+export const getExercise = (data, exId) => {
+  return data.exercises.find((ex) => ex.id === exId);
 };
 
 export default function useData() {
-  return useContext(DataCtx);
+  return data;
 }

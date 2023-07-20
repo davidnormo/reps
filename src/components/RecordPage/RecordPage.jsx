@@ -5,7 +5,7 @@ import RecordExercise from "./RecordExercise";
 
 export default function RecordPage() {
   const { exercise, setHistoryState } = useNav();
-  const { data } = useData();
+  const data = useData();
   const findExercises = (query) => {
     return data.exercises
       .filter((ex) => {

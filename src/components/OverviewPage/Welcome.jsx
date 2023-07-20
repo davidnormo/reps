@@ -4,14 +4,14 @@ import Card from "../Card/Card";
 import Link from "../Link/Link";
 
 export default function Welcome() {
-  const { data, updateState } = useData();
+  const data = useData();
 
   if (data.state.hideWelcome) {
     return null;
   }
 
   return (
-    <Card onClose={() => updateState("hideWelcome", true)}>
+    <Card onClose={() => data.updateState("hideWelcome", true)}>
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Welcome to Reps
       </h5>

@@ -3,7 +3,7 @@ import useData, { getCategory, getExercise } from "../../hooks/useData";
 import StackedBarChart from "../StackedBarChart/StackedBarChart";
 
 export default function WeekOverview() {
-  const { data } = useData();
+  const data = useData();
 
   const series = useMemo(() => {
     const today = new Date();

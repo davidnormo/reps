@@ -5,7 +5,7 @@ import Timer, { printTimer } from "../Timer/Timer";
 
 export default function RecordExercise() {
   const { exercise, recording = false, setHistoryState } = useNav();
-  const { addRep, data } = useData();
+  const data = useData();
 
   const reps = data.reps.filter((r) => r.exerciseId === exercise.id);
 
@@ -13,7 +13,11 @@ export default function RecordExercise() {
   const { name, timed } = exercise;
 
   const timerStopped = ({ startTime, ellapsedTime }) => {
-    addRep(exercise, { startTime, ellapsedTime: ellapsedTime.getTime(), set });
+    data.addRep(exercise, {
+      startTime,
+      ellapsedTime: ellapsedTime.getTime(),
+      set,
+    });
     setTimeout(() => {
       setHistoryState({ recording: false, exercise });
     }, 10);

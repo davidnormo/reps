@@ -8,7 +8,7 @@ import useData from "../../hooks/useData";
 const units = ["None", "kg", "cm", "metres", "count"];
 
 export default function AddExercise({ close, exercise }) {
-  const { addExercise, updateExercise } = useData();
+  const data = useData();
 
   const [name, setName] = useState(exercise.name || "");
   const [category, setCategory] = useState(exercise.category || "");
@@ -18,7 +18,7 @@ export default function AddExercise({ close, exercise }) {
 
   const onDone = () => {
     if (exercise) {
-      updateExercise({
+      data.updateExercise({
         ...exercise,
         name,
         category,
@@ -27,7 +27,7 @@ export default function AddExercise({ close, exercise }) {
         sets,
       });
     } else {
-      addExercise({ name, category, unit, timed, sets });
+      data.addExercise({ name, category, unit, timed, sets });
     }
     close();
   };
