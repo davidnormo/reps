@@ -45,8 +45,9 @@ export default function WeekOverview() {
   }, []);
 
   return (
-    <div className="h-[200px] mt-2">
+    <div className="h-[200px] mt-2 mb-2">
       <StackedBarChart
+        noDataMessage="No reps yet..."
         height={200}
         series={series}
         legend={{ x: ["M", "T", "W", "Th", "F", "S", "S"] }}

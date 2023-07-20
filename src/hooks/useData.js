@@ -1,6 +1,7 @@
 import { createContext } from "preact";
 import { useContext, useState } from "preact/hooks";
 import mockData from "./mockData";
+import { randomInt } from "../utils/utils";
 
 const schema = {
   exercises: [],
@@ -24,7 +25,6 @@ export const categoryBgColors = [
   "bg-pink-100",
   "bg-rose-100",
 ];
-export const randomInt = (max) => Math.floor(Math.random() * max);
 
 const getDataFromStorage = () => {
   const rawData = window.localStorage.getItem("data");
@@ -39,9 +39,9 @@ const getDataFromStorage = () => {
     updateStorage(data);
   }
 
-  if (import.meta.env.DEV) {
-    data = mockData({ categoryBgColors, randomInt });
-  }
+  // if (import.meta.env.DEV) {
+  data = mockData({ categoryBgColors, randomInt });
+  // }
 
   return data;
 };

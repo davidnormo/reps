@@ -10,32 +10,39 @@ const findMaxValue = (series) => {
   return max;
 };
 
-export default function StackedBarChart({ series, legend }) {
+export default function StackedBarChart({ series, legend, noDataMessage }) {
   const maxValue = findMaxValue(series);
 
   return (
     <div className="w-full h-full flex flex-col justify-end">
-      <div className="grow flex flex-row border-b pb-1 overflow-hidden animate-grow relative">
-        {series.map((stacks, i) => (
-          <div
-            key={i}
-            className={`h-full flex flex-col-reverse ${
-              i === 0 ? "ml-0" : "ml-2"
-            }`}
-            style={{ width: `calc(100% / ${series.length}` }}
-          >
-            {stacks.map((stack, j) => (
-              <div
-                className={`w-full ${stack.color || "bg-teal-100"}`}
-                key={`${i}${j}`}
-                style={{
-                  height: `${(stack.value / maxValue) * 100}%`,
-                }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+      {maxValue === 0 && (
+        <div className="grow flex justify-center items-center border-b pb-1">
+          {noDataMessage}
+        </div>
+      )}
+      {maxValue !== 0 && (
+        <div className="grow flex flex-row border-b pb-1 overflow-hidden animate-grow relative">
+          {series.map((stacks, i) => (
+            <div
+              key={i}
+              className={`h-full flex flex-col-reverse ${
+                i === 0 ? "ml-0" : "ml-2"
+              }`}
+              style={{ width: `calc(100% / ${series.length}` }}
+            >
+              {stacks.map((stack, j) => (
+                <div
+                  className={`w-full ${stack.color || "bg-teal-100"}`}
+                  key={`${i}${j}`}
+                  style={{
+                    height: `${(stack.value / maxValue) * 100}%`,
+                  }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
       <div className="flex flex-row text-center justify-self-end">
         {legend.x.map((leg, i) => (
           <div

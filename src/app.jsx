@@ -17,7 +17,7 @@ export function App() {
             <h1 className="text-xl font-bold ml-2">Reps</h1>
           </div>
           <div
-            className="overflow-scroll"
+            className="overflow-scroll pb-4"
             style={{ height: "calc(100vh - 36px - 51px)" }}
           >
             <PageComponent />

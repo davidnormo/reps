@@ -1,6 +1,17 @@
-export default function Card({ children, onClose }) {
+export default function Card({
+  children,
+  onClose,
+  className = "",
+  tight = false,
+}) {
+  let padding = "p-6";
+  if (tight) {
+    padding = "p-3";
+  }
   return (
-    <div className="block relative max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
+    <div
+      className={`block relative max-w-sm ${padding} bg-white border border-gray-200 rounded-lg shadow ${className}`}
+    >
       {onClose && (
         <div onClick={() => onClose()} className="absolute top-2 right-2">
           <svg

@@ -17,6 +17,11 @@ export default ({ categoryBgColors, randomInt }) => ({
       name: "Bible Study",
       bgColor: categoryBgColors[randomInt(categoryBgColors.length)],
     },
+    {
+      id: "4",
+      name: "Home",
+      bgColor: categoryBgColors[randomInt(categoryBgColors.length)],
+    },
   ],
   exercises: [
     {
@@ -41,6 +46,14 @@ export default ({ categoryBgColors, randomInt }) => ({
       timed: true,
       sets: true,
       category: "3",
+      unit: "none",
+    },
+    {
+      id: "4",
+      name: "Tidy Up",
+      timed: true,
+      sets: true,
+      category: "4",
       unit: "none",
     },
   ],
