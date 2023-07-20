@@ -6,6 +6,10 @@ import { randomInt } from "../../utils/utils";
 export default function OverviewCards() {
   const { data } = useData();
 
+  if (!data.exercises.length) {
+    return null;
+  }
+
   const { mostReps, notDone, random } = useMemo(() => {
     const init = data.exercises.reduce((acc, ex) => {
       acc[ex.id] = [];
@@ -51,7 +55,7 @@ export default function OverviewCards() {
   return (
     <div className="mt-2 grid gap-x-10 gap-y-4 px-10 grid-cols-2">
       <Card tight>
-        <h6 className="mb-2 text-xs tracking-tight text-gray-400">Most reps</h6>
+        <h6 className="mb-2 text-xs text-gray-400">Most reps</h6>
         <h5 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
           {mostReps.value}x
         </h5>
@@ -61,18 +65,14 @@ export default function OverviewCards() {
       </Card>
       {notDone && (
         <Card tight>
-          <h6 className="mb-2 text-xs tracking-tight text-gray-400">
-            Don't forget...
-          </h6>
+          <h6 className="mb-2 text-xs text-gray-400">Don't forget...</h6>
           <h6 className="mb-2 text-4xl tracking-tight font-bold text-gray-900">
             {notDone.name}
           </h6>
         </Card>
       )}
       <Card tight className="col-span-2 justify-self-center">
-        <h6 className="mb-2 text-xs tracking-tight text-gray-400">
-          Random Exercise
-        </h6>
+        <h6 className="mb-2 text-xs text-gray-400">Random Exercise</h6>
         <h6 className="mb-2 text-4xl tracking-tight font-bold text-gray-900">
           {random.exerciseName}
         </h6>

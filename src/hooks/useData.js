@@ -39,9 +39,9 @@ const getDataFromStorage = () => {
     updateStorage(data);
   }
 
-  // if (import.meta.env.DEV) {
-  data = mockData({ categoryBgColors, randomInt });
-  // }
+  if (import.meta.env.DEV) {
+    data = mockData({ categoryBgColors, randomInt });
+  }
 
   return data;
 };
