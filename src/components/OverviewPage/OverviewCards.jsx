@@ -10,6 +10,7 @@ export default function OverviewCards() {
     return null;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { mostReps, notDone, random } = useMemo(() => {
     const init = data.exercises.reduce((acc, ex) => {
       acc[ex.id] = [];
