@@ -1,6 +1,14 @@
 import { useState } from "preact/hooks";
 
-export default function Toggle({ label, value = false, onCommit = () => {} }) {
+export default function Toggle({
+  label,
+  value = false,
+  onCommit = () => {},
+}: {
+  label: string;
+  value?: boolean;
+  onCommit: (checked: boolean) => any;
+}) {
   const [active, setActive] = useState(value);
 
   return (
@@ -8,10 +16,10 @@ export default function Toggle({ label, value = false, onCommit = () => {} }) {
       <label className="relative inline-flex items-center cursor-pointer mb-2">
         <input
           type="checkbox"
-          value={active}
+          checked={active}
           onChange={(e) => {
-            setActive(e.target.checked);
-            onCommit(e.target.checked);
+            setActive(e.currentTarget.checked);
+            onCommit(e.currentTarget.checked);
           }}
           className="sr-only peer"
         />

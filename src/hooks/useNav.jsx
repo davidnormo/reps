@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "preact/hooks";
-import OverviewPage from "../components/OverviewPAge/OverviewPage";
+import OverviewPage from "../components/OverviewPage/OverviewPage";
 import RecordPage from "../components/RecordPage/RecordPage";
 import ManagePage from "../components/ManagePage/ManagePage";
 import { createContext } from "preact";

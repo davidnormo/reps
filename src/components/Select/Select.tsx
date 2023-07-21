@@ -1,6 +1,16 @@
 import { useState } from "preact/hooks";
 
-export default function Select({ label, options, value, onCommit }) {
+export default function Select({
+  label,
+  options,
+  value,
+  onCommit,
+}: {
+  label: string;
+  options: string[];
+  value: string;
+  onCommit: (value: string) => any;
+}) {
   const [selected, setSelected] = useState(value);
   const id = label.replace(" ", "");
   return (
@@ -15,8 +25,8 @@ export default function Select({ label, options, value, onCommit }) {
         id={id}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         onChange={(e) => {
-          setSelected(e.target.value);
-          onCommit(e.target.value);
+          setSelected(e.currentTarget.value);
+          onCommit(e.currentTarget.value);
         }}
       >
         {options.map((opt) => (

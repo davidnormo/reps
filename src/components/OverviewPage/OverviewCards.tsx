@@ -1,7 +1,8 @@
 import { useMemo } from "preact/hooks";
-import useData, { getCategory, getExercise } from "../../hooks/useData";
+import useData, { Rep, getCategory, getExercise } from "../../hooks/useData";
 import Card from "../Card/Card";
 import { randomInt } from "../../utils/utils";
+import { computed } from "@preact/signals";
 
 export default function OverviewCards() {
   const data = useData();
@@ -10,12 +11,14 @@ export default function OverviewCards() {
     return null;
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { mostReps, notDone, random } = useMemo(() => {
-    const init = data.exercises.reduce((acc, ex) => {
-      acc[ex.id] = [];
-      return acc;
-    }, {});
+  const stats = computed(() => {
+    const init = data.exercises.reduce(
+      (acc, ex) => {
+        acc[ex.id] = [];
+        return acc;
+      },
+      {} as Record<string, Rep[]>,
+    );
     const repsByExercise = data.reps.reduce((acc, rep) => {
       if (!acc[rep.exerciseId]) acc[rep.exerciseId] = [];
       acc[rep.exerciseId].push(rep);
@@ -51,36 +54,40 @@ export default function OverviewCards() {
         category: getCategory(data, randEx.category),
       },
     };
-  }, []);
+  });
 
   return (
     <div className="mt-2 grid gap-x-10 gap-y-4 px-10 grid-cols-2">
-      <Card tight>
-        <h6 className="mb-2 text-xs text-gray-400">Most reps</h6>
-        <h5 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-          {mostReps.value}x
-        </h5>
-        <h6 className="mb-2 text-md tracking-tight font-bold text-gray-500">
-          {mostReps.exercise.name}
-        </h6>
-      </Card>
-      {notDone && (
+      {stats.value.mostReps.exercise && (
         <Card tight>
-          <h6 className="mb-2 text-xs text-gray-400">Don't forget...</h6>
-          <h6 className="mb-2 text-4xl tracking-tight font-bold text-gray-900">
-            {notDone.name}
+          <h6 className="mb-2 text-xs text-gray-400">Most reps</h6>
+          <h5 className="text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {stats.value.mostReps.value}x
+          </h5>
+          <h6 className="mb-2 text-md tracking-tight font-bold text-gray-500">
+            {stats.value.mostReps.exercise.name}
           </h6>
         </Card>
       )}
-      <Card tight className="col-span-2 justify-self-center">
-        <h6 className="mb-2 text-xs text-gray-400">Random Exercise</h6>
-        <h6 className="mb-2 text-4xl tracking-tight font-bold text-gray-900">
-          {random.exerciseName}
-        </h6>
-        <h6 className="mb-2 text-md tracking-tight font-bold text-gray-500">
-          {random.category.name}
-        </h6>
-      </Card>
+      {stats.value.notDone && (
+        <Card tight>
+          <h6 className="mb-2 text-xs text-gray-400">Don't forget...</h6>
+          <h6 className="mb-2 text-4xl tracking-tight font-bold text-gray-900">
+            {stats.value.notDone.name}
+          </h6>
+        </Card>
+      )}
+      {stats.value.random.category && (
+        <Card tight className="col-span-2 justify-self-center">
+          <h6 className="mb-2 text-xs text-gray-400">Random Exercise</h6>
+          <h6 className="mb-2 text-4xl tracking-tight font-bold text-gray-900">
+            {stats.value.random.exerciseName}
+          </h6>
+          <h6 className="mb-2 text-md tracking-tight font-bold text-gray-500">
+            {stats.value.random.category.name}
+          </h6>
+        </Card>
+      )}
     </div>
   );
 }

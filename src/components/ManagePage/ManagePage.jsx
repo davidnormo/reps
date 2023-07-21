@@ -1,5 +1,5 @@
 import { BinIcon, PlusButton } from "../Icons/Icons";
-import AddExercise from "./AddUpdateExercise";
+import AddUpdateExercise from "./AddUpdateExercise";
 import useData from "../../hooks/useData";
 import useNav from "../../hooks/useNav";
 import ExerciseRow from "./ExerciseRow";
@@ -53,7 +53,7 @@ export default function ManagePage() {
         </>
       )}
       {addUpdate && (
-        <AddExercise
+        <AddUpdateExercise
           exercise={typeof addUpdate === "object" && addUpdate}
           close={() => setHistoryState({ addUpdate: false })}
         />

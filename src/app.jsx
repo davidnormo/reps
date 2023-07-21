@@ -1,5 +1,5 @@
 import "./app.css";
-import { Nav } from "./components/nav/nav";
+import { Nav } from "./components/Nav/Nav";
 import { NavCtx, useNavSetup } from "./hooks/useNav";
 import logo from "/android-chrome-512x512.png";
 

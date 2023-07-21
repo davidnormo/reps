@@ -1,4 +1,16 @@
-export default function Button({ children, bgColor = "bg-primary", ...props }) {
+import { ComponentChild, ComponentChildren, VNode } from "preact";
+import { HTMLAttributes } from "preact/compat";
+
+type RenderableChild = string | number | VNode<any>;
+
+export default function Button({
+  children,
+  bgColor = "bg-primary",
+  ...props
+}: HTMLAttributes<HTMLButtonElement> & {
+  children: RenderableChild | RenderableChild[];
+  bgColor?: string;
+}) {
   if (!Array.isArray(children)) {
     children = [children];
   }

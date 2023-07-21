@@ -1,11 +1,18 @@
 import { useState } from "preact/hooks";
+import { JSX } from "preact/jsx-runtime";
 
 export default function TextInput({
   initialValue,
   label,
   placeholder = "",
-  onCommit = () => {},
+  onCommit,
   onChange = () => {},
+}: {
+  initialValue: string;
+  label: string;
+  placeholder?: string;
+  onCommit: (value: string) => any;
+  onChange?: (value: string) => any;
 }) {
   const [value, setValue] = useState(initialValue);
   const id = label.replace(" ", "");
@@ -20,14 +27,14 @@ export default function TextInput({
       <input
         value={value}
         onInput={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
+          setValue(e.currentTarget.value);
+          onChange(e.currentTarget.value);
         }}
         type="text"
         id={id}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder={placeholder}
-        onBlur={(e) => onCommit(e.target.value)}
+        onBlur={(e) => onCommit(e.currentTarget.value)}
       />
     </div>
   );

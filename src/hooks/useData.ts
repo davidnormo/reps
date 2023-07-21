@@ -1,8 +1,8 @@
 import mockData from "./mockData";
 import { randomInt } from "../utils/utils";
-import { deepSignal } from "deepsignal";
+import { DeepSignal, deepSignal } from "deepsignal";
 
-const schema = () => ({
+const schema = (): SerialisableData => ({
   exercises: [],
   categories: [],
   reps: [],
@@ -25,14 +25,22 @@ export const categoryBgColors = [
   "bg-rose-100",
 ];
 
-const getDataFromStorage = () => {
-  const rawData = window.localStorage.getItem("data");
+interface SerialisableData {
+  categories: Category[],
+  exercises: Exercise[],
+  reps: Rep[],
+  state: Record<string, any>
+}
+
+const getDataFromStorage = (): SerialisableData => {
+  const rawData = window.localStorage.getItem("data") as string | undefined;
   const schemaRaw = schema();
-  let data = schemaRaw;
+  let data: SerialisableData | any = schemaRaw;
   if (rawData) {
-    data = JSON.parse(rawData);
+    data = JSON.parse(rawData) as Record<string, any>;
     for (let p of Object.keys(schemaRaw)) {
       if (!data[p]) {
+        // @ts-ignore
         data[p] = schemaRaw[p];
       }
     }
@@ -43,14 +51,52 @@ const getDataFromStorage = () => {
   //   data = mockData({ categoryBgColors, randomInt });
   // }
 
-  return data;
+  return data as SerialisableData;
 };
 
-const updateStorage = (data) => {
+const updateStorage = (data: SerialisableData) => {
   window.localStorage.setItem("data", JSON.stringify(data));
 };
 
-const data = deepSignal({
+export interface Category {
+  id: string;
+  name: string;
+  bgColor: string;
+}
+
+export interface Exercise {
+  id: string;
+  name: string;
+  category: string;
+  unit: string;
+  timed: boolean;
+  sets: boolean;
+}
+
+export interface RepDetails {
+  startTime: number;
+  ellapsedTime: number;
+}
+
+export interface Rep {
+  exerciseId: string;
+  details: RepDetails;
+}
+
+export interface Data extends SerialisableData {
+  categoriesHierarchy: Array<Category & {
+    exercises: Exercise[];
+  }>
+
+  addExercise(exercise: Omit<Exercise, 'id'>): void;
+  updateExercise(exercise: Exercise): void;
+  deleteExercise(exercise: Exercise): void;
+  addRep(exercise: Exercise, details: RepDetails): void;
+  updateState(key: string, value: any): void;
+  clearData(): void;
+}
+
+const data: DeepSignal<Data> = deepSignal({
   ...getDataFromStorage(),
 
   /**
@@ -65,7 +111,7 @@ const data = deepSignal({
     });
   },
 
-  addExercise(exercise) {
+  addExercise(exercise: Omit<Exercise, 'id'>) {
     let catId;
     const category = data.categories.find(
       (cat) => cat.name === exercise.category,
@@ -86,19 +132,19 @@ const data = deepSignal({
     updateStorage(data);
   },
 
-  updateExercise(exercise) {
+  updateExercise(exercise: Exercise) {
     const idx = data.exercises.findIndex((ex) => ex.id === exercise.id);
     data.exercises[idx] = exercise;
     updateStorage(data);
   },
 
-  deleteExercise(exercise) {
+  deleteExercise(exercise: Exercise) {
     const idx = data.exercises.findIndex((ex) => ex.id === exercise.id);
     data.exercises.splice(idx, 1);
     updateStorage(data);
   },
 
-  addRep(exercise, details) {
+  addRep(exercise: Exercise, details: RepDetails) {
     data.reps.push({
       exerciseId: exercise.id,
       details,
@@ -106,26 +152,28 @@ const data = deepSignal({
     updateStorage(data);
   },
 
-  updateState(key, value) {
+  updateState(key: string, value: any) {
     data.state[key] = value;
     updateStorage(data);
   },
 
   clearData() {
     const schemaRaw = schema();
-    for (let p in schemaRaw) {
+    let p: keyof SerialisableData;
+    for (p in schemaRaw) {
       delete data[p];
+      // @ts-ignore
       data[p] = schemaRaw[p];
     }
     updateStorage(data);
   },
 });
 
-export const getCategory = (data, catId) => {
+export const getCategory = (data: DeepSignal<Data>, catId: string) => {
   return data.categories.find((cat) => cat.id === catId);
 };
 
-export const getExercise = (data, exId) => {
+export const getExercise = (data: DeepSignal<Data>, exId: string) => {
   return data.exercises.find((ex) => ex.id === exId);
 };
 

@@ -3,18 +3,24 @@ import TextInput from "../TextInput/TextInput";
 import Toggle from "../Toggle/Toggle";
 import Select from "../Select/Select";
 import Button from "../Button/Button";
-import useData from "../../hooks/useData";
+import useData, { Exercise } from "../../hooks/useData";
 
 const units = ["None", "kg", "cm", "metres", "count"];
 
-export default function AddExercise({ close, exercise }) {
+export default function AddUpdateExercise({
+  close,
+  exercise,
+}: {
+  close: () => void;
+  exercise?: Exercise;
+}) {
   const data = useData();
 
-  const [name, setName] = useState(exercise.name || "");
-  const [category, setCategory] = useState(exercise.category || "");
-  const [unit, setUnit] = useState(exercise.unit || units[0]);
-  const [timed, setTimed] = useState(exercise.timed || false);
-  const [sets, setSets] = useState(exercise.sets || false);
+  const [name, setName] = useState(exercise?.name || "");
+  const [category, setCategory] = useState(exercise?.category || "");
+  const [unit, setUnit] = useState(exercise?.unit || units[0]);
+  const [timed, setTimed] = useState(exercise?.timed || false);
+  const [sets, setSets] = useState(exercise?.sets || false);
 
   const onDone = () => {
     if (exercise) {

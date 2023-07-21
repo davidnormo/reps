@@ -1,6 +1,6 @@
 export default function Card({
   children,
-  onClose,
+  onClose = false,
   className = "",
   tight = false,
 }) {
