@@ -17,29 +17,29 @@ export default function WeekOverview() {
 
     const series = [[], [], [], [], [], [], []];
 
-    for (let i = 0; i < data.reps.length; i++) {
-      const {
-        details: { startTime, ellapsedTime },
-        exerciseId,
-      } = data.reps[i];
-      const startDate = new Date(startTime);
+    data.reps.forEach(
+      ({ details: { startTime, ellapsedTime }, exerciseId }) => {
+        const startDate = new Date(startTime);
 
-      if (startDate < weekBegin) continue;
+        if (startDate < weekBegin) return;
 
-      let day = startDate.getDay() - 1;
-      if (day === -1) day = 6;
+        let day = startDate.getDay() - 1;
+        if (day === -1) day = 6;
 
-      const exercise = getExercise(data, exerciseId);
-      const category = getCategory(data, exercise.category);
-      let stack = series[day].find((stack) => stack.catId === category.id);
+        const exercise = getExercise(data, exerciseId);
+        if (!exercise) return;
 
-      if (!stack) {
-        stack = { catId: category.id, color: category.bgColor, value: 0 };
-        series[day].push(stack);
-      }
+        const category = getCategory(data, exercise.category);
+        let stack = series[day].find((stack) => stack.catId === category.id);
 
-      stack.value += ellapsedTime;
-    }
+        if (!stack) {
+          stack = { catId: category.id, color: category.bgColor, value: 0 };
+          series[day].push(stack);
+        }
+
+        stack.value += ellapsedTime;
+      },
+    );
 
     return series;
   }, []);

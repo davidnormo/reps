@@ -1,9 +1,10 @@
-import { PlusButton } from "../Icons/Icons";
+import { BinIcon, PlusButton } from "../Icons/Icons";
 import AddExercise from "./AddUpdateExercise";
 import useData from "../../hooks/useData";
 import useNav from "../../hooks/useNav";
 import ExerciseRow from "./ExerciseRow";
 import Card from "../Card/Card";
+import Button from "../Button/Button";
 
 export default function ManagePage() {
   const data = useData();
@@ -44,6 +45,11 @@ export default function ManagePage() {
               No exercises yet :(
             </div>
           )}
+          <div className="mx-2 mt-auto mb-4">
+            <Button bgColor="bg-slate-500" onClick={() => data.clearData()}>
+              Clear Data <BinIcon className="inline -mt-1" />
+            </Button>
+          </div>
         </>
       )}
       {addUpdate && (

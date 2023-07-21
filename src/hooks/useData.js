@@ -2,12 +2,12 @@ import mockData from "./mockData";
 import { randomInt } from "../utils/utils";
 import { deepSignal } from "deepsignal";
 
-const schema = {
+const schema = () => ({
   exercises: [],
   categories: [],
   reps: [],
   state: {},
-};
+});
 
 export const categoryBgColors = [
   "bg-slate-100",
@@ -27,20 +27,21 @@ export const categoryBgColors = [
 
 const getDataFromStorage = () => {
   const rawData = window.localStorage.getItem("data");
-  let data = schema;
+  const schemaRaw = schema();
+  let data = schemaRaw;
   if (rawData) {
     data = JSON.parse(rawData);
-    for (let p of Object.keys(schema)) {
+    for (let p of Object.keys(schemaRaw)) {
       if (!data[p]) {
-        data[p] = schema[p];
+        data[p] = schemaRaw[p];
       }
     }
     updateStorage(data);
   }
 
-  if (import.meta.env.DEV) {
-    data = mockData({ categoryBgColors, randomInt });
-  }
+  // if (import.meta.env.DEV) {
+  //   data = mockData({ categoryBgColors, randomInt });
+  // }
 
   return data;
 };
@@ -107,6 +108,15 @@ const data = deepSignal({
 
   updateState(key, value) {
     data.state[key] = value;
+    updateStorage(data);
+  },
+
+  clearData() {
+    const schemaRaw = schema();
+    for (let p in schemaRaw) {
+      delete data[p];
+      data[p] = schemaRaw[p];
+    }
     updateStorage(data);
   },
 });
