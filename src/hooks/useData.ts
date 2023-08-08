@@ -47,9 +47,9 @@ const getDataFromStorage = (): SerialisableData => {
     updateStorage(data);
   }
 
-  // if (import.meta.env.DEV) {
-  //   data = mockData({ categoryBgColors, randomInt });
-  // }
+  if (import.meta.env.DEV) {
+    data = mockData({ categoryBgColors, randomInt });
+  }
 
   return data as SerialisableData;
 };
@@ -75,7 +75,9 @@ export interface Exercise {
 
 export interface RepDetails {
   startTime: number;
-  ellapsedTime: number;
+  ellapsedTime?: number;
+  set?: number;
+  unitValue?: string;
 }
 
 export interface Rep {
@@ -92,6 +94,7 @@ export interface Data extends SerialisableData {
   updateExercise(exercise: Exercise): void;
   deleteExercise(exercise: Exercise): void;
   addRep(exercise: Exercise, details: RepDetails): void;
+  endSet(exercise: Exercise, set: number): void;
   updateState(key: string, value: any): void;
   clearData(): void;
 }
@@ -148,6 +151,15 @@ const data: DeepSignal<Data> = deepSignal({
     data.reps.push({
       exerciseId: exercise.id,
       details,
+    });
+    updateStorage(data);
+  },
+
+  endSet(exercise: Exercise, set: number) {
+    data.reps.forEach(rep => {
+      if (rep.exerciseId === exercise.id && rep.details.set === undefined) {
+        rep.details.set = set;
+      }
     });
     updateStorage(data);
   },

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 
-export const printTimer = (date) => {
+export const printTimer = (date: Date) => {
   return `${String(date.getMinutes()).padStart(2, "0")}:${String(
     date.getSeconds(),
   ).padStart(2, "0")}:${String(date.getMilliseconds())
@@ -8,8 +8,14 @@ export const printTimer = (date) => {
     .padStart(2, "0")}`;
 };
 
-export default function Timer({ className = "", onEnd }) {
-  const [id, setId] = useState(null);
+export default function Timer({
+  className = "",
+  onEnd,
+}: {
+  className?: string;
+  onEnd: (details: { startTime: number; ellapsedTime: Date }) => any;
+}) {
+  const [id, setId] = useState<NodeJS.Timer>();
   const [startTime] = useState(Date.now());
   const [ellapsedTime, setEllapsedTime] = useState(new Date());
 
